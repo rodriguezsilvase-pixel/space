@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Estudiantil | Explorador Espacial</title>
+    <style>
+        /* Fondo con efecto de espacio profundo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Estrellas animadas de fondo */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
+            background-position: 0 0, 40px 60px;
+            animation: moveStars 100s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-1000px); }
+        }
+
+        /* Contenedor principal (Efecto Vidrio) */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: scale(1.02);
+            border-color: #00d2ff;
+        }
+
+        /* Imagen de Perfil */
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid #00d2ff;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 10px 0;
+            letter-spacing: 2px;
+            color: #00d2ff;
+            text-transform: uppercase;
+        }
+
+        p.subtitle {
+            font-size: 14px;
+            color: #bdc3c7;
+            margin-bottom: 20px;
+        }
+
+        /* Información académica */
+        .info-section {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .label {
+            color: #00d2ff;
+            font-weight: bold;
+        }
+
+        /* Botón de acción */
+        .btn-contact {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+        }
+
+        .btn-contact:hover {
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.6);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-card">
+        <img src="said_foto.png" alt="Perfil Estudiantil" class="profile-img">
+        
+        <h1>Said Eduardo Rodriguez Silva</h1>
+        <p class="subtitle">Estudiante de Ingeniería / Ciencias</p>
+
+        <div class="info-section">
+            <div class="info-item"><span class="label">ID:</span> #2025-ASTRO</div>
+            <div class="info-item"><span class="label">Carrera:</span> Ciencias</div>
+            <div class="info-item"><span class="label">Nivel:</span> 4to Año</div>
+            <div class="info-item"><span class="label">Estatus:</span> En Órbita</div>
+        </div>
+
+        <a href="#" class="btn-contact">Ver Portafolio</a>
+    </div>
+
+</body>
+</html>
