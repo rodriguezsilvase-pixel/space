@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil Estudiantil | Explorador Espacial</title>
+    <title>SaidSpace | Perfil Estudiantil</title>
     <style>
-        /* Fondo con efecto de espacio profundo */
+        /* CONFIGURACIÓN GLOBAL Y EFECTO ESPACIAL */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Estrellas animadas de fondo */
+        /* Estrellas animadas */
         body::before {
             content: "";
-            position: absolute;
-            width: 200%;
-            height: 200%;
+            position: fixed;
+            top: 0; left: 0;
+            width: 200%; height: 200%;
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
             background-size: 550px 550px, 350px 350px;
-            background-position: 0 0, 40px 60px;
-            animation: moveStars 100s linear infinite;
+            animation: moveStars 150s linear infinite;
             z-index: -1;
         }
 
@@ -39,72 +39,75 @@
             to { transform: translateY(-1000px); }
         }
 
-        /* Contenedor principal (Efecto Vidrio) */
+        /* CONTENEDOR DE PERFIL (Glassmorphism) */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
         .profile-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 40px;
-            width: 350px;
+            width: 100%;
+            max-width: 400px;
             text-align: center;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-            transition: transform 0.3s ease;
+            margin-bottom: 100px;
         }
 
-        .profile-card:hover {
-            transform: scale(1.02);
-            border-color: #00d2ff;
-        }
-
-        /* Imagen de Perfil */
         .profile-img {
-            width: 180px;
-            height: 180px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             border: 3px solid #00d2ff;
             object-fit: cover;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
             margin-bottom: 20px;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 28px;
             margin: 10px 0;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: #00d2ff;
             text-transform: uppercase;
         }
 
-        p.subtitle {
-            font-size: 14px;
+        .subtitle {
+            font-size: 16px;
             color: #bdc3c7;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
-        /* Información académica */
         .info-section {
             text-align: left;
             background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
         }
 
         .info-item {
-            margin: 10px 0;
+            margin: 12px 0;
             font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 5px;
         }
 
         .label {
             color: #00d2ff;
             font-weight: bold;
+            margin-right: 10px;
         }
 
-        /* Botón de acción */
-        .btn-contact {
+        .btn-portfolio {
             display: inline-block;
-            padding: 10px 25px;
+            padding: 12px 30px;
             background: linear-gradient(45deg, #00d2ff, #3a7bd5);
             color: white;
             text-decoration: none;
@@ -112,31 +115,118 @@
             font-weight: bold;
             transition: 0.3s;
             box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            text-transform: uppercase;
+            font-size: 14px;
         }
 
-        .btn-contact:hover {
-            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.6);
-            letter-spacing: 1px;
+        .btn-portfolio:hover {
+            box-shadow: 0 6px 25px rgba(0, 210, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* SECCIÓN DE PROYECTOS */
+        #proyectos {
+            width: 100%;
+            max-width: 1000px;
+            padding-top: 50px;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #00d2ff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 40px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: 0.4s ease;
+        }
+
+        .project-card:hover {
+            background: rgba(0, 210, 255, 0.08);
+            border-color: #00d2ff;
+            transform: translateY(-10px);
+        }
+
+        .project-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .project-card h3 {
+            color: #00d2ff;
+            margin: 10px 0;
+        }
+
+        .project-card p {
+            font-size: 14px;
+            color: #bdc3c7;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-card">
-        <img src="said_foto.png" alt="Perfil Estudiantil" class="profile-img">
+    <div class="main-container">
         
-        <h1>Said Eduardo Rodriguez Silva</h1>
-        <p class="subtitle">Estudiante de Ingeniería / Ciencias</p>
+        <div class="profile-card">
+            <img src="tu-foto.jpg" alt="Said Space Profile" class="profile-img">
+            
+            <h1>SAID</h1>
+            <p class="subtitle">Cadete Espacial & Desarrollador</p>
 
-        <div class="info-section">
-            <div class="info-item"><span class="label">ID:</span> #2025-ASTRO</div>
-            <div class="info-item"><span class="label">Carrera:</span> Ciencias</div>
-            <div class="info-item"><span class="label">Nivel:</span> 4to Año</div>
-            <div class="info-item"><span class="label">Estatus:</span> En Órbita</div>
+            <div class="info-section">
+                <div class="info-item"><span class="label">Misión:</span> SaidSpace.net</div>
+                <div class="info-item"><span class="label">Especialidad:</span> Ingeniería de Sistemas</div>
+                <div class="info-item"><span class="label">Base:</span> GitHub Orbital</div>
+                <div class="info-item"><span class="label">Estado:</span> Explorando Nuevos Mundos</div>
+            </div>
+
+            <a href="#proyectos" class="btn-portfolio">Explorar Proyectos</a>
         </div>
 
-        <a href="#" class="btn-contact">Ver Portafolio</a>
+        <section id="proyectos">
+            <h2 class="section-title">Archivo de Misiones</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <span class="project-icon">🚀</span>
+                    <h3>Proyecto Alpha</h3>
+                    <p>Desarrollo de interfaces futuristas con tecnología web moderna y despliegue automatizado.</p>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-icon">🛰️</span>
+                    <h3>SaidSpace Web</h3>
+                    <p>Configuración de dominio personalizado en GitHub Pages con integración de DNS.</p>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-icon">🌌</span>
+                    <h3>Nebulosa Visual</h3>
+                    <p>Uso de inteligencia artificial para la creación de contenido visual y diseño de perfiles.</p>
+                </div>
+            </div>
+        </section>
+
     </div>
+
+    <footer style="margin-top: 100px; padding: 20px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.3);">
+        &copy; 2025 SaidSpace.net - Transmisión finalizada.
+    </footer>
 
 </body>
 </html>
