@@ -54,15 +54,75 @@
         .astro-img-mini { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid rgba(0, 210, 255, 0.3); }
 
         /* VENTANA MODAL (GALERÍA EXPANDIDA) */
-        .modal {
-            display: none; position: fixed; z-index: 1000; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.95);
-            flex-direction: column; align-items: center; justify-content: center;
-        }
-        .modal.active { display: flex; }
-        .modal-content { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 90%; }
-        .modal-img { max-width: 300px; border: 2px solid #00d2ff; border-radius: 10px; box-shadow: 0 0 20px #00d2ff; }
-        .close-btn { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
+       /* VENTANA MODAL (GALERÍA EXPANDIDA) */
+.modal {
+    display: none; position: fixed; z-index: 1000; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.95);
+    flex-direction: column; align-items: center; justify-content: flex-start;
+    overflow-y: auto; padding: 40px 0;
+}
+.modal.active { display: flex; }
+
+.modal-content { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 25px; 
+    width: 90%; 
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+/* Contenedor individual con efecto de elevación */
+.photo-frame {
+    background: rgba(10, 20, 35, 0.8);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.photo-frame:hover {
+    border-color: #00d2ff;
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.3);
+}
+
+/* Contenedor de la imagen para controlar el zoom */
+.img-container {
+    width: 100%;
+    height: 250px;
+    overflow: hidden; /* Corta el exceso del zoom */
+    border-radius: 8px;
+    background: #000;
+}
+
+.modal-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+    transition: transform 0.5s ease;
+}
+
+/* El zoom ocurre aquí al pasar el mouse */
+.photo-frame:hover .modal-img {
+    transform: scale(1.2);
+}
+
+.photo-caption {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #00d2ff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.close-btn { position: fixed; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; z-index: 1001; transition: 0.3s; }
+.close-btn:hover { color: #00d2ff; transform: rotate(90deg); }
     </style>
 </head>
 <body>
@@ -101,16 +161,40 @@
         </section>
     </div>
 
-    <div id="galleryModal" class="modal">
-        <span class="close-btn" onclick="closeGallery()">&times;</span>
-        <h2 style="color: #00d2ff; margin-bottom: 30px;">Galería de Exploración</h2>
-        <div class="modal-content">
-            <img src="luna.jpeg" class="modal-img" alt="La Luna">
-            <img src="jupiter.jpeg" class="modal-img" alt="Júpiter">
-            <img src="io_jupiter_calisto.jpeg" class="modal-img" alt="Lunas de Júpiter">
-            <img src="jupiter2.jpeg" class="modal-img" alt="Observación Júpiter">
+   <div id="galleryModal" class="modal">
+    <span class="close-btn" onclick="closeGallery()">&times;</span>
+    <h2 style="color: #00d2ff; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 10px #00d2ff;">Archivo Astrofísico</h2>
+    
+    <div class="modal-content">
+        <div class="photo-frame">
+            <div class="img-container">
+                <img src="luna.jpeg" class="modal-img">
+            </div>
+            <div class="photo-caption">Fase Lunar - 27/12/25</div>
+        </div>
+        
+        <div class="photo-frame">
+            <div class="img-container">
+                <img src="jupiter.jpeg" class="modal-img">
+            </div>
+            <div class="photo-caption">Júpiter & Satélites</div>
+        </div>
+        
+        <div class="photo-frame">
+            <div class="img-container">
+                <img src="io_jupiter_calisto.jpeg" class="modal-img">
+            </div>
+            <div class="photo-caption">Ío, Ganímedes y Calisto</div>
+        </div>
+        
+        <div class="photo-frame">
+            <div class="img-container">
+                <img src="jupiter2.jpeg" class="modal-img">
+            </div>
+            <div class="photo-caption">Registro Joviano II</div>
         </div>
     </div>
+</div>
 
     <script>
         function openGallery() {
