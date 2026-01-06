@@ -39,7 +39,7 @@
             to { transform: translateY(-1000px); }
         }
 
-        /* CONTENEDOR DE PERFIL (Glassmorphism) */
+        /* CONTENEDOR DE PERFIL */
         .main-container {
             display: flex;
             flex-direction: column;
@@ -119,11 +119,6 @@
             font-size: 14px;
         }
 
-        .btn-portfolio:hover {
-            box-shadow: 0 6px 25px rgba(0, 210, 255, 0.6);
-            transform: translateY(-2px);
-        }
-
         /* SECCIÓN DE PROYECTOS */
         #proyectos {
             width: 100%;
@@ -141,7 +136,7 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
 
@@ -149,32 +144,48 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 25px;
-            text-align: center;
+            padding: 20px;
             transition: 0.4s ease;
         }
 
         .project-card:hover {
             background: rgba(0, 210, 255, 0.08);
             border-color: #00d2ff;
-            transform: translateY(-10px);
+            transform: translateY(-5px);
         }
 
-        .project-icon {
-            font-size: 40px;
+        /* Galería de imágenes dentro de la tarjeta */
+        .astro-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-bottom: 15px;
-            display: block;
+        }
+
+        .astro-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+        }
+
+        .astro-img-large {
+            grid-column: span 2;
+            height: 180px;
         }
 
         .project-card h3 {
             color: #00d2ff;
-            margin: 10px 0;
+            margin: 15px 0 5px 0;
+            text-align: center;
         }
 
         .project-card p {
             font-size: 14px;
             color: #bdc3c7;
-            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -203,21 +214,25 @@
             
             <div class="projects-grid">
                 <div class="project-card">
-                    <span class="project-icon">🚀</span>
+                    <div class="astro-gallery">
+                        <img src="luna.jpeg" alt="La Luna" class="astro-img">
+                        <img src="jupiter.jpeg" alt="Júpiter y lunas" class="astro-img">
+                        <img src="io_jupiter_calisto.jpeg" alt="Satélites Galileanos" class="astro-img astro-img-large">
+                    </div>
                     <h3>Proyecto Astrofísica</h3>
-                    <p>Desarrollo de interfaces futuristas con tecnología web moderna y despliegue automatizado.</p>
+                    <p>Observación astronómica de cuerpos celestes: Registro fotográfico de la Luna y el sistema de Júpiter.</p>
                 </div>
 
                 <div class="project-card">
-                    <span class="project-icon">🛰️</span>
+                    <div style="font-size: 50px; text-align: center; padding: 40px 0;">🛰️</div>
                     <h3>Said Space Robotics</h3>
-                    <p>Configuración de dominio personalizado en GitHub Pages con integración de DNS.</p>
+                    <p>Diseño y configuración de sistemas autónomos para exploración en entornos de baja gravedad.</p>
                 </div>
 
                 <div class="project-card">
-                    <span class="project-icon">🌌</span>
+                    <div style="font-size: 50px; text-align: center; padding: 40px 0;">🌌</div>
                     <h3>Nebulosa Visual</h3>
-                    <p>Uso de inteligencia artificial para la creación de contenido visual y diseño de perfiles.</p>
+                    <p>Procesamiento de imágenes de campo profundo para la identificación de cúmulos estelares.</p>
                 </div>
             </div>
         </section>
@@ -225,7 +240,7 @@
     </div>
 
     <footer style="margin-top: 100px; padding: 20px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.3);">
-        &copy; 2025 Titan Tech.
+        &copy; 2025 Titan Tech Orbital.
     </footer>
 
 </body>
