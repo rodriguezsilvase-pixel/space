@@ -6,242 +6,125 @@
     <title>Said Space | Perfil Estudiantil</title>
     <style>
         /* CONFIGURACIÓN GLOBAL Y EFECTO ESPACIAL */
-        html {
-            scroll-behavior: smooth;
-        }
-
+        html { scroll-behavior: smooth; }
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
-            color: white;
-            min-height: 100vh;
-            overflow-x: hidden;
+            color: white; min-height: 100vh; overflow-x: hidden;
         }
 
         /* Estrellas animadas */
         body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0;
-            width: 200%; height: 200%;
+            content: ""; position: fixed; top: 0; left: 0; width: 200%; height: 200%;
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
             background-size: 550px 550px, 350px 350px;
-            animation: moveStars 150s linear infinite;
-            z-index: -1;
+            animation: moveStars 150s linear infinite; z-index: -1;
         }
-
-        @keyframes moveStars {
-            from { transform: translateY(0); }
-            to { transform: translateY(-1000px); }
-        }
+        @keyframes moveStars { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
 
         /* CONTENEDOR DE PERFIL */
-        .main-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 20px;
-        }
-
+        .main-container { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
         .profile-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-            margin-bottom: 100px;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
+            padding: 40px; width: 100%; max-width: 400px; text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8); margin-bottom: 100px;
         }
-
         .profile-img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 3px solid #00d2ff;
-            object-fit: cover;
-            box-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 28px;
-            margin: 10px 0;
-            letter-spacing: 3px;
-            color: #00d2ff;
-            text-transform: uppercase;
-        }
-
-        .subtitle {
-            font-size: 16px;
-            color: #bdc3c7;
-            margin-bottom: 25px;
-        }
-
-        .info-section {
-            text-align: left;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-        }
-
-        .info-item {
-            margin: 12px 0;
-            font-size: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 5px;
-        }
-
-        .label {
-            color: #00d2ff;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .btn-portfolio {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
-            text-transform: uppercase;
-            font-size: 14px;
+            width: 200px; height: 200px; border-radius: 50%; border: 3px solid #00d2ff;
+            object-fit: cover; box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); margin-bottom: 20px;
         }
 
         /* SECCIÓN DE PROYECTOS */
-        #proyectos {
-            width: 100%;
-            max-width: 1000px;
-            padding-top: 50px;
-        }
-
-        .section-title {
-            text-align: center;
-            color: #00d2ff;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
+        #proyectos { width: 100%; max-width: 1000px; padding-top: 50px; }
+        .section-title { text-align: center; color: #00d2ff; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        
         .project-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            transition: 0.4s ease;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 20px; transition: 0.4s ease; cursor: pointer;
         }
+        .project-card:hover { background: rgba(0, 210, 255, 0.08); border-color: #00d2ff; transform: translateY(-5px); }
 
-        .project-card:hover {
-            background: rgba(0, 210, 255, 0.08);
-            border-color: #00d2ff;
-            transform: translateY(-5px);
-        }
+        /* Estilo de la galería miniatura */
+        .astro-gallery-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .astro-img-mini { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid rgba(0, 210, 255, 0.3); }
 
-        /* Galería de imágenes dentro de la tarjeta */
-        .astro-gallery {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
+        /* VENTANA MODAL (GALERÍA EXPANDIDA) */
+        .modal {
+            display: none; position: fixed; z-index: 1000; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.95);
+            flex-direction: column; align-items: center; justify-content: center;
         }
-
-        .astro-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 210, 255, 0.3);
-        }
-
-        .astro-img-large {
-            grid-column: span 2;
-            height: 180px;
-        }
-
-        .project-card h3 {
-            color: #00d2ff;
-            margin: 15px 0 5px 0;
-            text-align: center;
-        }
-
-        .project-card p {
-            font-size: 14px;
-            color: #bdc3c7;
-            text-align: center;
-            margin-bottom: 0;
-        }
+        .modal.active { display: flex; }
+        .modal-content { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 90%; }
+        .modal-img { max-width: 300px; border: 2px solid #00d2ff; border-radius: 10px; box-shadow: 0 0 20px #00d2ff; }
+        .close-btn { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="main-container">
-        
         <div class="profile-card">
             <img src="said_foto.png" alt="Said Space Profile" class="profile-img">
-            
             <h1>SAID</h1>
-            <p class="subtitle">Investigador</p>
-
-            <div class="info-section">
-                <div class="info-item"><span class="label">Misión:</span> Said Space</div>
-                <div class="info-item"><span class="label">Especialidad:</span> Ciencias e Ingeniería</div>
-                <div class="info-item"><span class="label">Base:</span> Titan Tech Orbital</div>
-                <div class="info-item"><span class="label">Estado:</span> Explorando Nuevos Mundos</div>
+            <div class="info-section" style="text-align: left; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin: 20px 0;">
+                <div style="margin-bottom: 8px;"><b style="color:#00d2ff;">Misión:</b> Said Space</div>
+                <div style="margin-bottom: 8px;"><b style="color:#00d2ff;">Base:</b> Titan Tech Orbital</div>
             </div>
-
-            <a href="#proyectos" class="btn-portfolio">Explorar Proyectos</a>
+            <a href="#proyectos" style="background: linear-gradient(45deg, #00d2ff, #3a7bd5); color: white; padding: 10px 25px; text-decoration: none; border-radius: 50px; font-weight: bold;">Explorar Proyectos</a>
         </div>
 
         <section id="proyectos">
             <h2 class="section-title">Archivo de Misiones</h2>
-            
             <div class="projects-grid">
-                <div class="project-card">
-                    <div class="astro-gallery">
-                        <img src="luna.jpeg" alt="La Luna" class="astro-img">
-                        <img src="jupiter.jpeg" alt="Júpiter y lunas" class="astro-img">
-                        <img src="io_jupiter_calisto.jpeg" alt="Satélites Galileanos" class="astro-img astro-img-large">
+                
+                <div class="project-card" onclick="openGallery()">
+                    <div class="astro-gallery-mini">
+                        <img src="luna.jpeg" class="astro-img-mini">
+                        <img src="jupiter.jpeg" class="astro-img-mini">
                     </div>
-                    <h3>Proyecto Astrofísica</h3>
-                    <p>Observación astronómica de cuerpos celestes: Registro fotográfico de la Luna y el sistema de Júpiter.</p>
+                    <h3 style="color:#00d2ff;">Proyecto Astrofísica</h3>
+                    <p style="font-size: 14px; color:#bdc3c7;">Haz clic para ver la galería completa de capturas planetarias.</p>
                 </div>
 
                 <div class="project-card">
-                    <div style="font-size: 50px; text-align: center; padding: 40px 0;">🛰️</div>
-                    <h3>Said Space Robotics</h3>
-                    <p>Diseño y configuración de sistemas autónomos para exploración en entornos de baja gravedad.</p>
+                    <div style="font-size: 40px; text-align: center;">🛰️</div>
+                    <h3 style="color:#00d2ff;">Space Robotics</h3>
+                    <p style="font-size: 14px; color:#bdc3c7;">Diseño de sistemas autónomos de exploración.</p>
                 </div>
 
-                <div class="project-card">
-                    <div style="font-size: 50px; text-align: center; padding: 40px 0;">🌌</div>
-                    <h3>Nebulosa Visual</h3>
-                    <p>Procesamiento de imágenes de campo profundo para la identificación de cúmulos estelares.</p>
-                </div>
             </div>
         </section>
-
     </div>
 
-    <footer style="margin-top: 100px; padding: 20px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.3);">
-        &copy; 2025 Titan Tech Orbital.
-    </footer>
+    <div id="galleryModal" class="modal">
+        <span class="close-btn" onclick="closeGallery()">&times;</span>
+        <h2 style="color: #00d2ff; margin-bottom: 30px;">Galería de Exploración</h2>
+        <div class="modal-content">
+            <img src="luna.jpeg" class="modal-img" alt="La Luna">
+            <img src="jupiter.jpeg" class="modal-img" alt="Júpiter">
+            <img src="io_jupiter_calisto.jpeg" class="modal-img" alt="Lunas de Júpiter">
+            <img src="jupiter2.jpeg" class="modal-img" alt="Observación Júpiter">
+        </div>
+    </div>
+
+    <script>
+        function openGallery() {
+            document.getElementById('galleryModal').classList.add('active');
+        }
+        function closeGallery() {
+            document.getElementById('galleryModal').classList.remove('active');
+        }
+        // Cerrar al hacer clic fuera de las fotos
+        window.onclick = function(event) {
+            let modal = document.getElementById('galleryModal');
+            if (event.target == modal) { closeGallery(); }
+        }
+    </script>
 
 </body>
 </html>
