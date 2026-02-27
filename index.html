@@ -373,386 +373,425 @@
 
     <div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toastMessage">Acción completada</span></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ DOM cargado - Inicializando Said Space');
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('✅ DOM cargado - Inicializando Said Space');
+        
+        const SITE_URL = window.location.href;
+        const SITE_TITLE = 'Said Space | Perfil Estudiantil';
+        
+        const galleryItems = [
+            {
+                id: 'img_001', type: 'image',
+                src: 'luna_2026-02-24_at_8.30.03_PM.jpeg',
+                alt: 'Fase Lunar Cuarto Creciente',
+                caption: 'Fase Lunar Cuarto Creciente - 24/02/26',
+                thumb: 'luna.jpeg'
+            },
+            {
+                id: 'vid_001', type: 'video',  // ← VIDEO CORREGIDO
+                src: 'jupiter_lunas_2026-02-24_at_8.30.18_PM.mp4',
+                alt: 'Lunas de Júpiter en movimiento',
+                caption: 'Lunas de Júpiter: Ío, Ganímedes, Calisto - 24/02/26',
+                thumb: 'jupiter.jpeg'
+            },
+            { 
+                id: 'img_002', type: 'image', 
+                src: 'luna.jpeg', 
+                alt: 'Fase Lunar observada', 
+                caption: 'Fase Lunar - 27/12/25', 
+                thumb: 'luna.jpeg' 
+            },
+            { 
+                id: 'img_003', type: 'image', 
+                src: 'jupiter.jpeg', 
+                alt: 'Júpiter y sus satélites', 
+                caption: 'Júpiter & Satélites', 
+                thumb: 'jupiter.jpeg' 
+            },
+            { 
+                id: 'img_004', type: 'image', 
+                src: 'io_jupiter_calisto.jpeg', 
+                alt: 'Ío, Ganímedes y Calisto', 
+                caption: 'Ío, Ganímedes y Calisto', 
+                thumb: 'io_jupiter_calisto.jpeg' 
+            },
+            { 
+                id: 'img_005', type: 'image', 
+                src: 'jupiter2.jpeg', 
+                alt: 'Registro Joviano II', 
+                caption: 'Registro Joviano II', 
+                thumb: 'jupiter2.jpeg' 
+            }
+        ];
+
+        let currentIndex = 0;
+        let isModalOpen = false;
+        let sharePanelOpen = false;
+        let fullscreenActive = false;
+
+        const modal = document.getElementById('galleryModal');
+        const mediaWrapper = document.getElementById('mediaWrapper');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const modalCounter = document.getElementById('modalCounter');
+        const viewCountEl = document.getElementById('viewCount');
+        const thumbnailsBar = document.getElementById('thumbnailsBar');
+        const sharePanel = document.getElementById('sharePanel');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const navPrev = document.getElementById('navPrev');
+        const navNext = document.getElementById('navNext');
+        const lightboxContent = document.getElementById('lightboxContent');
+
+        function setTheme(themeName) {
+            document.body.classList.remove('theme-light', 'theme-cyber');
+            if (themeName !== 'space') {
+                document.body.classList.add(`theme-${themeName}`);
+            }
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === themeName);
+            });
+            localStorage.setItem('saidSpaceTheme', themeName);
+            const themeNames = { 'space': 'Espacio', 'light': 'Claro', 'cyber': 'Cyber' };
+            showToast(`Tema cambiado a: ${themeNames[themeName]}`, 'info');
+        }
+
+        const savedTheme = localStorage.getItem('saidSpaceTheme') || 'space';
+        setTheme(savedTheme);
+
+        document.getElementById('theme-space').addEventListener('click', () => setTheme('space'));
+        document.getElementById('theme-light').addEventListener('click', () => setTheme('light'));
+        document.getElementById('theme-cyber').addEventListener('click', () => setTheme('cyber'));
+
+        function trackView(itemId) {
+            const storageKey = `said_stats_${itemId}`;
+            let currentViews = parseInt(localStorage.getItem(storageKey) || '0');
+            currentViews++;
+            localStorage.setItem(storageKey, currentViews);
+            viewCountEl.textContent = currentViews.toLocaleString();
+        }
+
+        function openGallery(index = 0) {
+            currentIndex = index;
+            isModalOpen = true;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            updateMedia();
+            generateThumbnails();
+            preloadAdjacent(index);
+            sharePanel.classList.remove('active');
+            sharePanelOpen = false;
+        }
+        
+        function closeGallery() {
+            isModalOpen = false;
             
-            const SITE_URL = window.location.href;
-            const SITE_TITLE = 'Said Space | Perfil Estudiantil';
+            // Pausar todos los videos
+            const videos = modal.querySelectorAll('video');
+            videos.forEach(video => {
+                video.pause();
+            });
             
-            // USAR IMÁGENES LOCALES
-            const galleryItems = [
-                {
-                    id: 'img_001', type: 'image',
-                    src: 'luna_2026-02-24_at_8.30.03_PM.jpeg',
-                    alt: 'Fase Lunar Cuarto Creciente',
-                    caption: 'Fase Lunar Cuarto Creciente - 24/02/26',
-                    thumb: 'luna.jpeg'
-                },
-                {
-                    id: 'vid_001', type: 'image',
-                    src: 'jupiter_lunas_2026-02-24_at_8.30.18_PM.mp4',
-                    alt: 'Lunas de Júpiter en movimiento',
-                    caption: 'Lunas de Júpiter: Ío, Ganímedes, Calisto - 24/02/26',
-                    thumb: 'jupiter.jpeg'
-                },
-                { 
-                    id: 'img_002', type: 'image', 
-                    src: 'luna.jpeg', 
-                    alt: 'Fase Lunar observada', 
-                    caption: 'Fase Lunar - 27/12/25', 
-                    thumb: 'luna.jpeg' 
-                },
-                { 
-                    id: 'img_003', type: 'image', 
-                    src: 'jupiter.jpeg', 
-                    alt: 'Júpiter y sus satélites', 
-                    caption: 'Júpiter & Satélites', 
-                    thumb: 'jupiter.jpeg' 
-                },
-                { 
-                    id: 'img_004', type: 'image', 
-                    src: 'io_jupiter_calisto.jpeg', 
-                    alt: 'Ío, Ganímedes y Calisto', 
-                    caption: 'Ío, Ganímedes y Calisto', 
-                    thumb: 'io_jupiter_calisto.jpeg' 
-                },
-                { 
-                    id: 'img_005', type: 'image', 
-                    src: 'jupiter2.jpeg', 
-                    alt: 'Registro Joviano II', 
-                    caption: 'Registro Joviano II', 
-                    thumb: 'jupiter2.jpeg' 
+            exitFullscreen();
+            modal.classList.remove('active');
+            sharePanel.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateMedia() {
+            const item = galleryItems[currentIndex];
+            mediaWrapper.innerHTML = '<div class="loading-overlay"><div class="loading-spinner"></div><span class="loading-text">Cargando...</span></div>';
+            mediaWrapper.style.opacity = '0.7';
+            trackView(item.id);
+            
+            setTimeout(() => {
+                mediaWrapper.innerHTML = '';
+                
+                const badge = document.createElement('span');
+                badge.className = 'media-badge';
+                badge.textContent = item.type === 'video' ? '▶ VIDEO' : '📷 FOTO';
+                mediaWrapper.appendChild(badge);
+                
+                if (item.type === 'image') {
+                    const img = new Image();
+                    img.src = item.src;
+                    img.alt = item.alt;
+                    img.className = 'lightbox-img';
+                    img.loading = 'eager';
+                    img.onload = () => { mediaWrapper.style.opacity = '1'; };
+                    img.onerror = () => { 
+                        mediaWrapper.innerHTML = '<div style="color:#ff6b6b;padding:20px;text-align:center;"><div style="font-size:48px;margin-bottom:10px;">⚠️</div><div>Imagen no encontrada</div><div style="font-size:12px;margin-top:10px;opacity:0.7;">' + item.src + '</div></div>';
+                        showToast('No se pudo cargar: ' + item.src, 'error');
+                    };
+                    mediaWrapper.appendChild(img);
+                } 
+                else if (item.type === 'video') {
+                    const video = document.createElement('video');
+                    video.className = 'lightbox-video';
+                    video.controls = true;
+                    video.preload = 'metadata';
+                    video.playsInline = true;
+                    video.style.width = '100%';
+                    video.style.maxHeight = '78vh';
+                    video.style.objectFit = 'contain';
+                    video.style.borderRadius = '12px';
+                    
+                    const source = document.createElement('source');
+                    source.src = item.src;
+                    source.type = 'video/mp4';
+                    video.appendChild(source);
+                    
+                    video.innerHTML += '<p style="color:#ff6b6b;padding:20px;">Tu navegador no soporta videos MP4</p>';
+                    
+                    video.onloadeddata = () => { 
+                        console.log('✅ Video cargado:', item.src);
+                        mediaWrapper.style.opacity = '1'; 
+                    };
+                    
+                    video.onerror = () => { 
+                        console.error('❌ Error al cargar video:', item.src);
+                        mediaWrapper.innerHTML = '<div style="color:#ff6b6b;padding:20px;text-align:center;"><div style="font-size:48px;margin-bottom:10px;">⚠️</div><div>Video no encontrado</div><div style="font-size:12px;margin-top:10px;opacity:0.7;">' + item.src + '</div></div>';
+                        showToast('No se pudo cargar el video', 'error');
+                    };
+                    
+                    mediaWrapper.appendChild(video);
                 }
-            ];
-
-            let currentIndex = 0;
-            let isModalOpen = false;
-            let sharePanelOpen = false;
-            let fullscreenActive = false;
-
-            const modal = document.getElementById('galleryModal');
-            const mediaWrapper = document.getElementById('mediaWrapper');
-            const lightboxCaption = document.getElementById('lightboxCaption');
-            const modalCounter = document.getElementById('modalCounter');
-            const viewCountEl = document.getElementById('viewCount');
-            const thumbnailsBar = document.getElementById('thumbnailsBar');
-            const sharePanel = document.getElementById('sharePanel');
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            const navPrev = document.getElementById('navPrev');
-            const navNext = document.getElementById('navNext');
-            const lightboxContent = document.getElementById('lightboxContent');
-
-            function setTheme(themeName) {
-                document.body.classList.remove('theme-light', 'theme-cyber');
-                if (themeName !== 'space') {
-                    document.body.classList.add(`theme-${themeName}`);
-                }
-                document.querySelectorAll('.theme-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.theme === themeName);
+                
+                lightboxCaption.textContent = item.caption;
+                updateCounter(); 
+                updateNavButtons(); 
+                updateActiveThumbnail();
+            }, 150);
+        }
+        
+        function generateThumbnails() {
+            thumbnailsBar.innerHTML = '';
+            galleryItems.forEach((item, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = item.thumb; 
+                thumb.alt = item.alt;
+                thumb.className = `thumb-item ${index === currentIndex ? 'active' : ''}`;
+                thumb.tabIndex = 0;
+                thumb.onerror = function() { this.style.background = '#333'; };
+                thumb.addEventListener('click', () => goToIndex(index));
+                thumb.addEventListener('keydown', (e) => { 
+                    if (e.key === 'Enter' || e.key === ' ') { 
+                        e.preventDefault(); 
+                        goToIndex(index); 
+                    } 
                 });
-                localStorage.setItem('saidSpaceTheme', themeName);
-                const themeNames = { 'space': 'Espacio', 'light': 'Claro', 'cyber': 'Cyber' };
-                showToast(`Tema cambiado a: ${themeNames[themeName]}`, 'info');
+                thumbnailsBar.appendChild(thumb);
+            });
+        }
+        
+        function updateActiveThumbnail() {
+            document.querySelectorAll('.thumb-item').forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentIndex);
+            });
+            const active = thumbnailsBar.querySelector('.thumb-item.active');
+            if (active) {
+                active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
             }
+        }
+        
+        function updateCounter() {
+            modalCounter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
+        }
+        
+        function updateNavButtons() {
+            navPrev.disabled = currentIndex === 0;
+            navNext.disabled = currentIndex === galleryItems.length - 1;
+        }
 
-            const savedTheme = localStorage.getItem('saidSpaceTheme') || 'space';
-            setTheme(savedTheme);
-
-            document.getElementById('theme-space').addEventListener('click', () => setTheme('space'));
-            document.getElementById('theme-light').addEventListener('click', () => setTheme('light'));
-            document.getElementById('theme-cyber').addEventListener('click', () => setTheme('cyber'));
-
-            function trackView(itemId) {
-                const storageKey = `said_stats_${itemId}`;
-                let currentViews = parseInt(localStorage.getItem(storageKey) || '0');
-                currentViews++;
-                localStorage.setItem(storageKey, currentViews);
-                viewCountEl.textContent = currentViews.toLocaleString();
+        function navigateMedia(direction) {
+            const newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex < galleryItems.length) {
+                goToIndex(newIndex);
             }
+        }
+        
+        function goToIndex(index) {
+            if (index === currentIndex) return;
+            const video = modal.querySelector('.lightbox-video');
+            if (video) video.pause();
+            currentIndex = index;
+            updateMedia();
+            preloadAdjacent(index);
+        }
 
-            function openGallery(index = 0) {
-                currentIndex = index;
-                isModalOpen = true;
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                updateMedia();
-                generateThumbnails();
-                preloadAdjacent(index);
+        function preloadAdjacent(index) {
+            const preload = (idx) => {
+                if (idx >= 0 && idx < galleryItems.length && galleryItems[idx].type === 'image') {
+                    const img = new Image(); 
+                    img.src = galleryItems[idx].src;
+                }
+            };
+            preload(index - 1); 
+            preload(index + 1);
+        }
+
+        function toggleFullscreen() {
+            if (!fullscreenActive) {
+                if (modal.requestFullscreen) modal.requestFullscreen();
+                else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
+                fullscreenActive = true;
+                showToast('Modo pantalla completa activado', 'info');
+            } else {
+                exitFullscreen();
+            }
+        }
+        
+        function exitFullscreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                fullscreenActive = false;
+                return;
+            }
+            
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+            fullscreenActive = false;
+        }
+        
+        document.addEventListener('fullscreenchange', () => {
+            fullscreenActive = !!document.fullscreenElement;
+        });
+
+        async function downloadCurrent() {
+            const item = galleryItems[currentIndex];
+            if (item.type === 'image') {
+                try {
+                    showToast('Preparando descarga...', 'info');
+                    const response = await fetch(item.src);
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `said-space-${currentIndex + 1}.jpg`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    showToast('✓ Imagen descargada', 'success');
+                } catch (error) {
+                    window.open(item.src, '_blank');
+                    showToast('Abriendo imagen en nueva pestaña', 'info');
+                }
+            } else {
+                window.open(item.src, '_blank');
+                showToast('Abriendo video en nueva pestaña', 'info');
+            }
+        }
+
+        function toggleSharePanel() {
+            sharePanelOpen = !sharePanelOpen;
+            sharePanel.classList.toggle('active', sharePanelOpen);
+        }
+        
+        function shareTo(platform) {
+            const item = galleryItems[currentIndex];
+            const shareUrl = SITE_URL + '#proyectos';
+            const shareText = `🚀 ${item.caption} | ${SITE_TITLE}`;
+            
+            const urls = {
+                whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`,
+                twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
+                facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+                copy: shareUrl
+            };
+            
+            if (platform === 'copy') {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    showToast('✓ Enlace copiado al portapapeles', 'success');
+                }).catch(() => {
+                    showToast('Error al copiar', 'error');
+                });
+            } else if (urls[platform]) {
+                window.open(urls[platform], '_blank', 'width=600,height=400');
+                showToast(`Abriendo ${platform}...`, 'info');
+            }
+            
+            setTimeout(() => {
+                sharePanel.classList.remove('active');
+                sharePanelOpen = false;
+            }, 1000);
+        }
+
+        function showToast(message, type = 'info') {
+            const icon = toast.querySelector('.toast-icon');
+            toastMessage.textContent = message;
+            toast.className = `toast ${type} show`;
+            icon.textContent = type === 'success' ? '✓' : type === 'error' ? '⚠️' : 'ℹ️';
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+                setTimeout(() => toast.classList.remove('hide'), 400);
+            }, 3000);
+        }
+
+        document.getElementById('project-astro').addEventListener('click', () => openGallery(0));
+        document.getElementById('project-astro').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openGallery(0);
+            }
+        });
+
+        document.getElementById('closeBtn').addEventListener('click', closeGallery);
+        document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+        document.getElementById('downloadBtn').addEventListener('click', downloadCurrent);
+        document.getElementById('shareToggleBtn').addEventListener('click', toggleSharePanel);
+        navPrev.addEventListener('click', () => navigateMedia(-1));
+        navNext.addEventListener('click', () => navigateMedia(1));
+
+        document.getElementById('shareWhatsapp').addEventListener('click', () => shareTo('whatsapp'));
+        document.getElementById('shareTwitter').addEventListener('click', () => shareTo('twitter'));
+        document.getElementById('shareFacebook').addEventListener('click', () => shareTo('facebook'));
+        document.getElementById('shareCopy').addEventListener('click', () => shareTo('copy'));
+
+        window.addEventListener('keydown', function(event) {
+            if (!isModalOpen) return;
+            if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) event.preventDefault();
+            
+            switch(event.key) {
+                case 'Escape': closeGallery(); break;
+                case 'ArrowLeft': navigateMedia(-1); break;
+                case 'ArrowRight': navigateMedia(1); break;
+                case 'Home': goToIndex(0); break;
+                case 'End': goToIndex(galleryItems.length - 1); break;
+                case 'f': case 'F': toggleFullscreen(); break;
+                case 'd': case 'D': downloadCurrent(); break;
+                case 's': case 'S': toggleSharePanel(); break;
+            }
+        });
+
+        let touchStartX = 0, touchEndX = 0;
+        lightboxContent.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+        lightboxContent.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) navigateMedia(diff > 0 ? 1 : -1);
+        }, { passive: true });
+
+        window.addEventListener('click', (e) => { if (e.target === modal) closeGallery(); });
+        lightboxContent.addEventListener('click', (e) => e.stopPropagation());
+        
+        document.addEventListener('click', (e) => {
+            if (sharePanelOpen && !e.target.closest('.share-panel') && !e.target.closest('#shareToggleBtn')) {
                 sharePanel.classList.remove('active');
                 sharePanelOpen = false;
             }
-            
-            function closeGallery() {
-                isModalOpen = false;
-                exitFullscreen();
-                modal.classList.remove('active');
-                sharePanel.classList.remove('active');
-                document.body.style.overflow = '';
-                const video = modal.querySelector('.lightbox-video');
-                if (video) video.pause();
-            }
-
-            function updateMedia() {
-                const item = galleryItems[currentIndex];
-                mediaWrapper.innerHTML = '<div class="loading-overlay"><div class="loading-spinner"></div><span class="loading-text">Cargando...</span></div>';
-                mediaWrapper.style.opacity = '0.7';
-                trackView(item.id);
-                
-                setTimeout(() => {
-                    mediaWrapper.innerHTML = '';
-                    const badge = document.createElement('span');
-                    badge.className = 'media-badge';
-                    badge.textContent = item.type === 'video' ? '▶ VIDEO' : '📷 FOTO';
-                    mediaWrapper.appendChild(badge);
-                    
-                    if (item.type === 'image') {
-                        const img = new Image();
-                        img.src = item.src;
-                        img.alt = item.alt;
-                        img.className = 'lightbox-img';
-                        img.loading = 'eager';
-                        img.onload = () => { mediaWrapper.style.opacity = '1'; };
-                        img.onerror = () => { 
-                            mediaWrapper.innerHTML = '<div style="color:#ff6b6b;padding:20px;text-align:center;"><div style="font-size:48px;margin-bottom:10px;">⚠️</div><div>Imagen no encontrada</div><div style="font-size:12px;margin-top:10px;opacity:0.7;">' + item.src + '</div></div>';
-                            showToast('No se pudo cargar: ' + item.src, 'error');
-                        };
-                        mediaWrapper.appendChild(img);
-                    } else if (item.type === 'video') {
-                        const video = document.createElement('video');
-                        video.className = 'lightbox-video';
-                        video.controls = true;
-                        video.preload = 'metadata';
-                        video.src = item.src;
-                        video.onloadeddata = () => { mediaWrapper.style.opacity = '1'; };
-                        video.onerror = () => { 
-                            mediaWrapper.innerHTML = '<div style="color:#ff6b6b;padding:20px;text-align:center;"><div style="font-size:48px;margin-bottom:10px;">⚠️</div><div>Video no encontrado</div><div style="font-size:12px;margin-top:10px;opacity:0.7;">' + item.src + '</div></div>';
-                            showToast('No se pudo cargar: ' + item.src, 'error');
-                        };
-                        mediaWrapper.appendChild(video);
-                    }
-                    
-                    lightboxCaption.textContent = item.caption;
-                    updateCounter(); 
-                    updateNavButtons(); 
-                    updateActiveThumbnail();
-                }, 150);
-            }
-            
-            function generateThumbnails() {
-                thumbnailsBar.innerHTML = '';
-                galleryItems.forEach((item, index) => {
-                    const thumb = document.createElement('img');
-                    thumb.src = item.thumb; 
-                    thumb.alt = item.alt;
-                    thumb.className = `thumb-item ${index === currentIndex ? 'active' : ''}`;
-                    thumb.tabIndex = 0;
-                    thumb.onerror = function() { this.style.background = '#333'; };
-                    thumb.addEventListener('click', () => goToIndex(index));
-                    thumb.addEventListener('keydown', (e) => { 
-                        if (e.key === 'Enter' || e.key === ' ') { 
-                            e.preventDefault(); 
-                            goToIndex(index); 
-                        } 
-                    });
-                    thumbnailsBar.appendChild(thumb);
-                });
-            }
-            
-            function updateActiveThumbnail() {
-                document.querySelectorAll('.thumb-item').forEach((thumb, index) => {
-                    thumb.classList.toggle('active', index === currentIndex);
-                });
-                const active = thumbnailsBar.querySelector('.thumb-item.active');
-                if (active) {
-                    active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                }
-            }
-            
-            function updateCounter() {
-                modalCounter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
-            }
-            
-            function updateNavButtons() {
-                navPrev.disabled = currentIndex === 0;
-                navNext.disabled = currentIndex === galleryItems.length - 1;
-            }
-
-            function navigateMedia(direction) {
-                const newIndex = currentIndex + direction;
-                if (newIndex >= 0 && newIndex < galleryItems.length) {
-                    goToIndex(newIndex);
-                }
-            }
-            
-            function goToIndex(index) {
-                if (index === currentIndex) return;
-                const video = modal.querySelector('.lightbox-video');
-                if (video) video.pause();
-                currentIndex = index;
-                updateMedia();
-                preloadAdjacent(index);
-            }
-
-            function preloadAdjacent(index) {
-                const preload = (idx) => {
-                    if (idx >= 0 && idx < galleryItems.length && galleryItems[idx].type === 'image') {
-                        const img = new Image(); 
-                        img.src = galleryItems[idx].src;
-                    }
-                };
-                preload(index - 1); 
-                preload(index + 1);
-            }
-
-            function toggleFullscreen() {
-                if (!fullscreenActive) {
-                    if (modal.requestFullscreen) modal.requestFullscreen();
-                    else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
-                    fullscreenActive = true;
-                    showToast('Modo pantalla completa activado', 'info');
-                } else {
-                    exitFullscreen();
-                }
-            }
-            
-            function exitFullscreen() {
-                if (document.exitFullscreen) document.exitFullscreen();
-                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                fullscreenActive = false;
-            }
-            
-            document.addEventListener('fullscreenchange', () => {
-                fullscreenActive = !!document.fullscreenElement;
-            });
-
-            async function downloadCurrent() {
-                const item = galleryItems[currentIndex];
-                if (item.type === 'image') {
-                    try {
-                        showToast('Preparando descarga...', 'info');
-                        const response = await fetch(item.src);
-                        const blob = await response.blob();
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `said-space-${currentIndex + 1}.jpg`;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        URL.revokeObjectURL(url);
-                        showToast('✓ Imagen descargada', 'success');
-                    } catch (error) {
-                        window.open(item.src, '_blank');
-                        showToast('Abriendo imagen en nueva pestaña', 'info');
-                    }
-                }
-            }
-
-            function toggleSharePanel() {
-                sharePanelOpen = !sharePanelOpen;
-                sharePanel.classList.toggle('active', sharePanelOpen);
-            }
-            
-            function shareTo(platform) {
-                const item = galleryItems[currentIndex];
-                const shareUrl = SITE_URL + '#proyectos';
-                const shareText = `🚀 ${item.caption} | ${SITE_TITLE}`;
-                
-                const urls = {
-                    whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`,
-                    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
-                    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-                    copy: shareUrl
-                };
-                
-                if (platform === 'copy') {
-                    navigator.clipboard.writeText(shareUrl).then(() => {
-                        showToast('✓ Enlace copiado al portapapeles', 'success');
-                    }).catch(() => {
-                        showToast('Error al copiar', 'error');
-                    });
-                } else if (urls[platform]) {
-                    window.open(urls[platform], '_blank', 'width=600,height=400');
-                    showToast(`Abriendo ${platform}...`, 'info');
-                }
-                
-                setTimeout(() => {
-                    sharePanel.classList.remove('active');
-                    sharePanelOpen = false;
-                }, 1000);
-            }
-
-            function showToast(message, type = 'info') {
-                const icon = toast.querySelector('.toast-icon');
-                toastMessage.textContent = message;
-                toast.className = `toast ${type} show`;
-                icon.textContent = type === 'success' ? '✓' : type === 'error' ? '⚠️' : 'ℹ️';
-                clearTimeout(toast._timeout);
-                toast._timeout = setTimeout(() => {
-                    toast.classList.remove('show');
-                    toast.classList.add('hide');
-                    setTimeout(() => toast.classList.remove('hide'), 400);
-                }, 3000);
-            }
-
-            document.getElementById('project-astro').addEventListener('click', () => openGallery(0));
-            document.getElementById('project-astro').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openGallery(0);
-                }
-            });
-
-            document.getElementById('closeBtn').addEventListener('click', closeGallery);
-            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
-            document.getElementById('downloadBtn').addEventListener('click', downloadCurrent);
-            document.getElementById('shareToggleBtn').addEventListener('click', toggleSharePanel);
-            navPrev.addEventListener('click', () => navigateMedia(-1));
-            navNext.addEventListener('click', () => navigateMedia(1));
-
-            document.getElementById('shareWhatsapp').addEventListener('click', () => shareTo('whatsapp'));
-            document.getElementById('shareTwitter').addEventListener('click', () => shareTo('twitter'));
-            document.getElementById('shareFacebook').addEventListener('click', () => shareTo('facebook'));
-            document.getElementById('shareCopy').addEventListener('click', () => shareTo('copy'));
-
-            window.addEventListener('keydown', function(event) {
-                if (!isModalOpen) return;
-                if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) event.preventDefault();
-                
-                switch(event.key) {
-                    case 'Escape': closeGallery(); break;
-                    case 'ArrowLeft': navigateMedia(-1); break;
-                    case 'ArrowRight': navigateMedia(1); break;
-                    case 'Home': goToIndex(0); break;
-                    case 'End': goToIndex(galleryItems.length - 1); break;
-                    case 'f': case 'F': toggleFullscreen(); break;
-                    case 'd': case 'D': downloadCurrent(); break;
-                    case 's': case 'S': toggleSharePanel(); break;
-                }
-            });
-
-            let touchStartX = 0, touchEndX = 0;
-            lightboxContent.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-            lightboxContent.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                const diff = touchStartX - touchEndX;
-                if (Math.abs(diff) > 50) navigateMedia(diff > 0 ? 1 : -1);
-            }, { passive: true });
-
-            window.addEventListener('click', (e) => { if (e.target === modal) closeGallery(); });
-            lightboxContent.addEventListener('click', (e) => e.stopPropagation());
-            
-            document.addEventListener('click', (e) => {
-                if (sharePanelOpen && !e.target.closest('.share-panel') && !e.target.closest('#shareToggleBtn')) {
-                    sharePanel.classList.remove('active');
-                    sharePanelOpen = false;
-                }
-            });
-
-            console.log('✅ Todos los event listeners inicializados');
         });
-    </script>
+
+        console.log('✅ Todos los event listeners inicializados');
+    });
+</script>
 </body>
 </html>
