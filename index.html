@@ -6,9 +6,8 @@
     <meta name="description" content="Perfil estudiantil de Said Space - Proyectos de astrofísica y robótica espacial">
     <title>Said Space | Perfil Estudiantil</title>
     <style>
-        /* ========== VARIABLES DE TEMA (CSS CUSTOM PROPERTIES) ========== */
+        /* ========== VARIABLES DE TEMA ========== */
         :root {
-            /* TEMA POR DEFECTO: ESPACIO (DARK) */
             --bg-gradient: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
             --bg-card: rgba(255, 255, 255, 0.05);
             --text-main: #ffffff;
@@ -21,7 +20,6 @@
             --card-hover: rgba(0, 210, 255, 0.08);
         }
 
-        /* TEMA CLARO (LIGHT) */
         body.theme-light {
             --bg-gradient: radial-gradient(circle at center, #f5f7fa 0%, #c3cfe2 100%);
             --bg-card: rgba(255, 255, 255, 0.8);
@@ -31,17 +29,16 @@
             --primary-glow: rgba(41, 128, 185, 0.3);
             --border-color: rgba(0, 0, 0, 0.1);
             --modal-bg: rgba(255, 255, 255, 0.95);
-            --star-color: transparent; /* Sin estrellas en modo día */
+            --star-color: transparent;
             --card-hover: rgba(41, 128, 185, 0.1);
         }
 
-        /* TEMA CYBER (NEON) */
         body.theme-cyber {
             --bg-gradient: radial-gradient(circle at center, #2b0042 0%, #000000 100%);
             --bg-card: rgba(20, 20, 30, 0.7);
             --text-main: #e0e0e0;
             --text-secondary: #a0a0a0;
-            --primary: #d500f9; /* Magenta Neón */
+            --primary: #d500f9;
             --primary-glow: rgba(213, 0, 249, 0.5);
             --border-color: rgba(213, 0, 249, 0.3);
             --modal-bg: rgba(10, 5, 15, 0.98);
@@ -60,7 +57,6 @@
             transition: background 0.5s ease, color 0.3s ease;
         }
 
-        /* Estrellas animadas (solo visibles en temas oscuros) */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 200%; height: 200%;
             background-image: 
@@ -70,11 +66,10 @@
             animation: moveStars 150s linear infinite; z-index: -1; pointer-events: none;
             opacity: 0.6;
         }
-        body.theme-light::before { opacity: 0; } /* Ocultar estrellas en modo claro */
+        body.theme-light::before { opacity: 0; }
         
         @keyframes moveStars { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
 
-        /* CONTENEDOR DE PERFIL */
         .main-container { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
         
         .profile-card {
@@ -87,9 +82,9 @@
         .profile-img {
             width: 200px; height: 200px; border-radius: 50%; border: 3px solid var(--primary);
             object-fit: cover; box-shadow: 0 0 30px var(--primary-glow); margin-bottom: 20px;
+            background: #1b2735;
         }
 
-        /* SECCIÓN DE PROYECTOS */
         #proyectos { width: 100%; max-width: 1000px; padding-top: 50px; }
         .section-title { text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
@@ -102,9 +97,8 @@
         .project-card:hover { background: var(--card-hover); border-color: var(--primary); transform: translateY(-5px); }
         .project-card:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
 
-        /* Galería miniatura */
         .astro-gallery-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .astro-img-mini { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid var(--border-color); }
+        .astro-img-mini { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid var(--border-color); background: #000; }
 
         /* ========== SELECTOR DE TEMA ========== */
         .theme-switcher-container {
@@ -124,12 +118,11 @@
             box-shadow: 0 0 15px var(--primary-glow);
             transform: scale(1.1);
         }
-        /* Colores específicos para los botones de tema */
         .theme-btn[data-theme="space"] { background: #1b2735; color: #00d2ff; }
         .theme-btn[data-theme="light"] { background: #f5f7fa; color: #2c3e50; }
         .theme-btn[data-theme="cyber"] { background: #2b0042; color: #d500f9; }
 
-        /* ========== MODAL LIGHTBOX ========== */
+        /* ========== MODAL ========== */
         .modal {
             display: none; position: fixed; z-index: 3000; top: 0; left: 0;
             width: 100%; height: 100%; background: var(--modal-bg);
@@ -140,7 +133,6 @@
         .modal.active { display: flex; animation: modalEnter 0.3s ease; }
         @keyframes modalEnter { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Header del Modal */
         .modal-header {
             position: fixed; top: 0; left: 0; right: 0;
             display: flex; justify-content: space-between; align-items: center;
@@ -178,7 +170,6 @@
         }
         .close-btn:hover { background: #ff6b6b; color: white; }
 
-        /* Tooltip */
         .action-btn[data-tooltip]:hover::after {
             content: attr(data-tooltip);
             position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%);
@@ -189,13 +180,11 @@
         }
         @keyframes tooltipFade { from { opacity: 0; transform: translateX(-50%) translateY(5px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
-        /* Contenedor principal */
         .lightbox-container {
             display: flex; align-items: center; justify-content: center;
             width: 100%; height: 100%; position: relative;
         }
 
-        /* Botones de navegación lateral */
         .nav-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: rgba(0, 210, 255, 0.2); border: 2px solid var(--primary);
@@ -209,7 +198,6 @@
         .nav-prev { left: 15px; }
         .nav-next { right: 15px; }
 
-        /* Contenido central */
         .lightbox-content {
             display: flex; flex-direction: column; align-items: center;
             max-width: 95vw; max-height: 85vh; position: relative;
@@ -217,7 +205,6 @@
         }
         @keyframes contentFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-        /* Wrapper de multimedia */
         .media-wrapper {
             position: relative; width: 100%; max-height: 78vh;
             display: flex; align-items: center; justify-content: center;
@@ -233,7 +220,6 @@
         }
         .lightbox-img:hover { transform: scale(1.01); }
 
-        /* Badge de tipo */
         .media-badge {
             position: absolute; top: 12px; right: 12px;
             background: var(--primary);
@@ -242,7 +228,6 @@
             letter-spacing: 1px; box-shadow: 0 4px 15px var(--primary-glow);
         }
 
-        /* Caption */
         .lightbox-caption {
             margin-top: 18px; padding: 12px 25px;
             font-size: 15px; color: var(--primary); font-weight: 600;
@@ -252,7 +237,6 @@
             max-width: 100%; backdrop-filter: blur(5px);
         }
 
-        /* Barra de miniaturas */
         .thumbnails-bar {
             display: flex; gap: 12px; margin-top: 15px;
             max-width: 95vw; overflow-x: auto; padding: 10px 20px;
@@ -275,7 +259,6 @@
         }
         .thumb-item:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
 
-        /* Panel de compartir */
         .share-panel {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
             background: rgba(15, 25, 40, 0.95); border: 1px solid var(--border-color);
@@ -304,7 +287,6 @@
         .share-btn.copy { background: rgba(156, 163, 175, 0.2); border-color: #9ca3af; }
         .share-btn.copy:hover { background: #9ca3af; color: white; }
 
-        /* Toast notifications */
         .toast {
             position: fixed; bottom: 30px; right: 30px;
             background: rgba(15, 25, 40, 0.95); border: 1px solid var(--primary);
@@ -325,7 +307,6 @@
         .toast.info { border-color: var(--primary); }
         .toast.info .toast-icon { color: var(--primary); }
 
-        /* Loading overlay */
         .loading-overlay {
             position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
             background: rgba(10, 20, 35, 0.95); flex-direction: column; gap: 15px;
@@ -338,7 +319,6 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-text { color: var(--primary); font-size: 14px; letter-spacing: 1px; }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .nav-btn { width: 45px; height: 45px; font-size: 24px; }
             .nav-prev { left: 8px; }
@@ -359,16 +339,16 @@
 </head>
 <body>
 
-    <!-- ========== SELECTOR DE TEMA ========== -->
+    <!-- SELECTOR DE TEMA -->
     <div class="theme-switcher-container">
-        <button class="theme-btn active" data-theme="space" onclick="setTheme('space')" aria-label="Tema Espacio" title="Tema Espacio">🌌</button>
-        <button class="theme-btn" data-theme="light" onclick="setTheme('light')" aria-label="Tema Claro" title="Tema Claro">☀️</button>
-        <button class="theme-btn" data-theme="cyber" onclick="setTheme('cyber')" aria-label="Tema Cyber" title="Tema Cyber">⚡</button>
+        <button class="theme-btn active" data-theme="space" id="theme-space" aria-label="Tema Espacio" title="Tema Espacio">🌌</button>
+        <button class="theme-btn" data-theme="light" id="theme-light" aria-label="Tema Claro" title="Tema Claro">☀️</button>
+        <button class="theme-btn" data-theme="cyber" id="theme-cyber" aria-label="Tema Cyber" title="Tema Cyber">⚡</button>
     </div>
 
     <div class="main-container">
         <div class="profile-card">
-            <img src="said_foto.png" alt="Foto de perfil de Said Space" class="profile-img" loading="lazy">
+            <img src="https://via.placeholder.com/200x200/1b2735/00d2ff?text=SAID" alt="Foto de perfil de Said Space" class="profile-img" loading="lazy">
             <h1>SAID</h1>
             <div class="info-section" style="text-align: left; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin: 20px 0; color: var(--text-main);">
                 <div style="margin-bottom: 8px;"><b style="color:var(--primary);">Misión:</b> Said Space</div>
@@ -380,10 +360,10 @@
         <section id="proyectos">
             <h2 class="section-title">Archivo de Misiones</h2>
             <div class="projects-grid">
-                <div class="project-card" onclick="openGallery(0)" role="button" tabindex="0">
+                <div class="project-card" id="project-astro" role="button" tabindex="0">
                     <div class="astro-gallery-mini">
-                        <img src="luna.jpeg" alt="Miniatura Luna" class="astro-img-mini" loading="lazy">
-                        <img src="jupiter.jpeg" alt="Miniatura Júpiter" class="astro-img-mini" loading="lazy">
+                        <img src="https://via.placeholder.com/150x80/000000/00d2ff?text=Luna" alt="Miniatura Luna" class="astro-img-mini" loading="lazy">
+                        <img src="https://via.placeholder.com/150x80/000000/00d2ff?text=Jupiter" alt="Miniatura Júpiter" class="astro-img-mini" loading="lazy">
                     </div>
                     <h3 style="color:var(--primary);">Proyecto Astrofísica</h3>
                     <p style="font-size: 14px; color:var(--text-secondary);">Haz clic para ver la galería completa de capturas planetarias.</p>
@@ -397,10 +377,9 @@
         </section>
     </div>
 
-    <!-- ========== MODAL LIGHTBOX ========== -->
+    <!-- MODAL LIGHTBOX -->
     <div id="galleryModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         
-        <!-- Header con controles y ESTADÍSTICAS -->
         <div class="modal-header">
             <div style="display:flex; gap:10px;">
                 <div class="modal-stats" id="viewStats" title="Visualizaciones totales">
@@ -410,16 +389,16 @@
             </div>
             
             <div class="header-actions">
-                <button class="action-btn" id="fullscreenBtn" onclick="toggleFullscreen()" data-tooltip="Pantalla completa [F]" aria-label="Pantalla completa" tabindex="0">⛶</button>
-                <button class="action-btn" id="downloadBtn" onclick="downloadCurrent()" data-tooltip="Descargar [D]" aria-label="Descargar" tabindex="0">⬇</button>
-                <button class="action-btn" id="shareToggleBtn" onclick="toggleSharePanel()" data-tooltip="Compartir [S]" aria-label="Compartir" tabindex="0">🔗</button>
-                <button class="action-btn close-btn" onclick="closeGallery()" data-tooltip="Cerrar [Esc]" aria-label="Cerrar galería" tabindex="0">&times;</button>
+                <button class="action-btn" id="fullscreenBtn" data-tooltip="Pantalla completa [F]" aria-label="Pantalla completa" tabindex="0">⛶</button>
+                <button class="action-btn" id="downloadBtn" data-tooltip="Descargar [D]" aria-label="Descargar" tabindex="0">⬇</button>
+                <button class="action-btn" id="shareToggleBtn" data-tooltip="Compartir [S]" aria-label="Compartir" tabindex="0">🔗</button>
+                <button class="action-btn close-btn" id="closeBtn" data-tooltip="Cerrar [Esc]" aria-label="Cerrar galería" tabindex="0">&times;</button>
             </div>
         </div>
         
         <div class="lightbox-container">
-            <button class="nav-btn nav-prev" onclick="navigateMedia(-1)" aria-label="Anterior" tabindex="0">&#10094;</button>
-            <button class="nav-btn nav-next" onclick="navigateMedia(1)" aria-label="Siguiente" tabindex="0">&#10095;</button>
+            <button class="nav-btn nav-prev" id="navPrev" aria-label="Anterior" tabindex="0">&#10094;</button>
+            <button class="nav-btn nav-next" id="navNext" aria-label="Siguiente" tabindex="0">&#10095;</button>
             
             <div class="lightbox-content" id="lightboxContent">
                 <div class="media-wrapper" id="mediaWrapper">
@@ -429,439 +408,439 @@
             </div>
         </div>
         
-        <!-- Miniaturas -->
         <div class="thumbnails-bar" id="thumbnailsBar"></div>
         
-        <!-- Panel de compartir -->
         <div class="share-panel" id="sharePanel">
             <span class="share-label">Compartir:</span>
-            <button class="share-btn whatsapp" onclick="shareTo('whatsapp')" data-tooltip="WhatsApp" aria-label="Compartir en WhatsApp">📱</button>
-            <button class="share-btn twitter" onclick="shareTo('twitter')" data-tooltip="Twitter/X" aria-label="Compartir en Twitter">🐦</button>
-            <button class="share-btn facebook" onclick="shareTo('facebook')" data-tooltip="Facebook" aria-label="Compartir en Facebook">📘</button>
-            <button class="share-btn copy" onclick="shareTo('copy')" data-tooltip="Copiar enlace" aria-label="Copiar enlace">📋</button>
+            <button class="share-btn whatsapp" id="shareWhatsapp" data-tooltip="WhatsApp" aria-label="Compartir en WhatsApp">📱</button>
+            <button class="share-btn twitter" id="shareTwitter" data-tooltip="Twitter/X" aria-label="Compartir en Twitter">🐦</button>
+            <button class="share-btn facebook" id="shareFacebook" data-tooltip="Facebook" aria-label="Compartir en Facebook">📘</button>
+            <button class="share-btn copy" id="shareCopy" data-tooltip="Copiar enlace" aria-label="Copiar enlace">📋</button>
         </div>
     </div>
 
-    <!-- Toast notifications -->
     <div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toastMessage">Acción completada</span></div>
 
     <script>
-        // ========== CONFIGURACIÓN ==========
-        const SITE_URL = window.location.href;
-        const SITE_TITLE = 'Said Space | Perfil Estudiantil';
-        
-        // ========== DATOS DE LA GALERÍA ==========
-        const galleryItems = [
-            {
-                id: 'img_001', type: 'image',
-                src: 'luna_2026-02-24_at_8.30.03_PM.jpeg',
-                alt: 'Fase Lunar Cuarto Creciente',
-                caption: 'Fase Lunar Cuarto Creciente - 24/02/26',
-                thumb: 'luna_2026-02-24_at_8.30.03_PM.jpeg'
-            },
-            {
-                id: 'vid_001', type: 'video',
-                sources: [
-                    { src: 'jupiter_lunas_2026-02-24_at_8.30.18_PM.mp4', type: 'video/mp4' },
-                    { src: 'jupiter_lunas_2026-02-24_at_8.30.18_PM.webm', type: 'video/webm' }
-                ],
-                alt: 'Lunas de Júpiter en movimiento',
-                caption: 'Lunas de Júpiter: Ío, Ganímedes, Calisto - 24/02/26',
-                thumb: 'jupiter.jpeg'
-            },
-            { id: 'img_002', type: 'image', src: 'luna.jpeg', alt: 'Fase Lunar observada', caption: 'Fase Lunar - 27/12/25', thumb: 'luna.jpeg' },
-            { id: 'img_003', type: 'image', src: 'jupiter.jpeg', alt: 'Júpiter y sus satélites', caption: 'Júpiter & Satélites', thumb: 'jupiter.jpeg' },
-            { id: 'img_004', type: 'image', src: 'io_jupiter_calisto.jpeg', alt: 'Ío, Ganímedes y Calisto', caption: 'Ío, Ganímedes y Calisto', thumb: 'io_jupiter_calisto.jpeg' },
-            { id: 'img_005', type: 'image', src: 'jupiter2.jpeg', alt: 'Registro Joviano II', caption: 'Registro Joviano II', thumb: 'jupiter2.jpeg' }
-        ];
-
-        let currentIndex = 0;
-        let isModalOpen = false;
-        let sharePanelOpen = false;
-        let fullscreenActive = false;
-
-        // ========== 1. SISTEMA DE TEMAS ==========
-        function setTheme(themeName) {
-            // Remover clases anteriores
-            document.body.classList.remove('theme-light', 'theme-cyber');
+        // Esperar a que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ DOM cargado - Inicializando Said Space');
             
-            // Aplicar nueva clase si no es el default
-            if (themeName !== 'space') {
-                document.body.classList.add(`theme-${themeName}`);
+            // ========== CONFIGURACIÓN ==========
+            const SITE_URL = window.location.href;
+            const SITE_TITLE = 'Said Space | Perfil Estudiantil';
+            
+            // ========== DATOS DE LA GALERÍA ==========
+            const galleryItems = [
+                {
+                    id: 'img_001', type: 'image',
+                    src: 'https://via.placeholder.com/800x600/1b2735/00d2ff?text=Luna+Cuarto+Creciente',
+                    alt: 'Fase Lunar Cuarto Creciente',
+                    caption: 'Fase Lunar Cuarto Creciente - 24/02/26',
+                    thumb: 'https://via.placeholder.com/150x80/000000/00d2ff?text=Luna'
+                },
+                {
+                    id: 'vid_001', type: 'image',
+                    src: 'https://via.placeholder.com/800x600/2b0042/d500f9?text=Jupiter+Video',
+                    alt: 'Lunas de Júpiter en movimiento',
+                    caption: 'Lunas de Júpiter: Ío, Ganímedes, Calisto - 24/02/26',
+                    thumb: 'https://via.placeholder.com/150x80/000000/00d2ff?text=Jupiter'
+                },
+                { 
+                    id: 'img_002', type: 'image', 
+                    src: 'https://via.placeholder.com/800x600/1b2735/00d2ff?text=Luna+27-12-25', 
+                    alt: 'Fase Lunar observada', 
+                    caption: 'Fase Lunar - 27/12/25', 
+                    thumb: 'https://via.placeholder.com/150x80/000000/00d2ff?text=Luna+2' 
+                },
+                { 
+                    id: 'img_003', type: 'image', 
+                    src: 'https://via.placeholder.com/800x600/1b2735/00d2ff?text=Jupiter+Satelites', 
+                    alt: 'Júpiter y sus satélites', 
+                    caption: 'Júpiter & Satélites', 
+                    thumb: 'https://via.placeholder.com/150x80/000000/00d2ff?text=Jupiter+2' 
+                },
+                { 
+                    id: 'img_004', type: 'image', 
+                    src: 'https://via.placeholder.com/800x600/1b2735/00d2ff?text=Io+Ganimedes+Calisto', 
+                    alt: 'Ío, Ganímedes y Calisto', 
+                    caption: 'Ío, Ganímedes y Calisto', 
+                    thumb: 'https://via.placeholder.com/150x80/000000/00d2ff?text=Lunas' 
+                },
+                { 
+                    id: 'img_005', type: 'image', 
+                    src: 'https://via.placeholder.com/800x600/1b2735/00d2ff?text=Registro+Joviano+II', 
+                    alt: 'Registro Joviano II', 
+                    caption: 'Registro Joviano II', 
+                    thumb: 'https://via.placeholder.com/150x80/000000/00d2ff?text=Jupiter+3' 
+                }
+            ];
+
+            let currentIndex = 0;
+            let isModalOpen = false;
+            let sharePanelOpen = false;
+            let fullscreenActive = false;
+
+            // ========== REFERENCIAS DOM ==========
+            const modal = document.getElementById('galleryModal');
+            const mediaWrapper = document.getElementById('mediaWrapper');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            const modalCounter = document.getElementById('modalCounter');
+            const viewCountEl = document.getElementById('viewCount');
+            const thumbnailsBar = document.getElementById('thumbnailsBar');
+            const sharePanel = document.getElementById('sharePanel');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const navPrev = document.getElementById('navPrev');
+            const navNext = document.getElementById('navNext');
+            const lightboxContent = document.getElementById('lightboxContent');
+
+            // ========== 1. SISTEMA DE TEMAS ==========
+            function setTheme(themeName) {
+                document.body.classList.remove('theme-light', 'theme-cyber');
+                
+                if (themeName !== 'space') {
+                    document.body.classList.add(`theme-${themeName}`);
+                }
+                
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.theme === themeName);
+                });
+                
+                localStorage.setItem('saidSpaceTheme', themeName);
+                
+                const themeNames = { 'space': 'Espacio', 'light': 'Claro', 'cyber': 'Cyber' };
+                showToast(`Tema cambiado a: ${themeNames[themeName]}`, 'info');
+                console.log('🎨 Tema cambiado a:', themeName);
             }
-            
-            // Actualizar botones UI
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.theme === themeName);
-            });
-            
-            // Guardar preferencia
-            localStorage.setItem('saidSpaceTheme', themeName);
-            
-            // Feedback visual
-            const themeNames = { 'space': 'Espacio', 'light': 'Claro', 'cyber': 'Cyber' };
-            showToast(`Tema cambiado a: ${themeNames[themeName]}`, 'info');
-        }
 
-        // Cargar tema guardado al iniciar
-        (function initTheme() {
+            // Cargar tema guardado
             const savedTheme = localStorage.getItem('saidSpaceTheme') || 'space';
             setTheme(savedTheme);
-        })();
 
-        // ========== 2. SISTEMA DE ESTADÍSTICAS (SIMULADO) ==========
-        function trackView(itemId) {
-            // Clave única para este item en localStorage
-            const storageKey = `said_stats_${itemId}`;
-            
-            // Obtener valor actual o iniciar en 0
-            let currentViews = parseInt(localStorage.getItem(storageKey) || '0');
-            
-            // Incrementar
-            currentViews++;
-            
-            // Guardar
-            localStorage.setItem(storageKey, currentViews);
-            
-            // Actualizar UI
-            document.getElementById('viewCount').textContent = currentViews.toLocaleString();
-            
-            /* 
-               ================================================================
-               NOTA PARA BACKEND REAL:
-               Si quieres estadísticas reales entre todos los usuarios,
-               descomenta y usa esta función fetch() aquí:
-               
-               fetch('https://tu-api.com/track', {
-                   method: 'POST',
-                   body: JSON.stringify({ itemId: itemId })
-               });
-               ================================================================
-            */
-        }
+            // Event listeners para botones de tema
+            document.getElementById('theme-space').addEventListener('click', () => setTheme('space'));
+            document.getElementById('theme-light').addEventListener('click', () => setTheme('light'));
+            document.getElementById('theme-cyber').addEventListener('click', () => setTheme('cyber'));
 
-        // ========== FUNCIONES PRINCIPALES ==========
-        function openGallery(index = 0) {
-            currentIndex = index;
-            isModalOpen = true;
-            document.getElementById('galleryModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            renderGallery();
-            updateMedia(); // Esto llamará a trackView() internamente
-            generateThumbnails();
-            preloadAdjacent(index);
-            
-            document.getElementById('sharePanel').classList.remove('active');
-            sharePanelOpen = false;
-        }
-        
-        function closeGallery() {
-            isModalOpen = false;
-            exitFullscreen();
-            document.getElementById('galleryModal').classList.remove('active');
-            document.getElementById('sharePanel').classList.remove('active');
-            document.body.style.overflow = '';
-            
-            const video = document.querySelector('.lightbox-video');
-            if (video) video.pause();
-        }
-
-        // ========== RENDERIZADO DINÁMICO ==========
-        function updateMedia() {
-            const item = galleryItems[currentIndex];
-            const wrapper = document.getElementById('mediaWrapper');
-            const caption = document.getElementById('lightboxCaption');
-            
-            // Mostrar loading
-            wrapper.innerHTML = '<div class="loading-overlay"><div class="loading-spinner"></div><span class="loading-text">Cargando...</span></div>';
-            wrapper.style.opacity = '0.7';
-            
-            // 👁️ REGISTRAR VISITA
-            trackView(item.id);
-            
-            setTimeout(() => {
-                wrapper.innerHTML = '';
-                
-                // Badge de tipo
-                const badge = document.createElement('span');
-                badge.className = 'media-badge';
-                badge.textContent = item.type === 'video' ? '▶ VIDEO' : '📷 FOTO';
-                wrapper.appendChild(badge);
-                
-                if (item.type === 'image') {
-                    const img = new Image();
-                    img.src = item.src;
-                    img.alt = item.alt;
-                    img.className = 'lightbox-img';
-                    img.loading = 'eager';
-                    img.onload = () => { wrapper.style.opacity = '1'; };
-                    img.onerror = () => { 
-                        wrapper.innerHTML = '<div style="color:#ff6b6b;padding:20px;">⚠️ Error al cargar la imagen</div>';
-                        showToast('No se pudo cargar la imagen', 'error');
-                    };
-                    wrapper.appendChild(img);
-                } else if (item.type === 'video') {
-                    const video = document.createElement('video');
-                    video.className = 'lightbox-video';
-                    video.controls = true; video.preload = 'metadata';
-                    video.setAttribute('playsinline', '');
-                    
-                    item.sources.forEach(source => {
-                        const src = document.createElement('source');
-                        src.src = source.src; src.type = source.type;
-                        video.appendChild(src);
-                    });
-                    video.innerHTML = '<p style="color:var(--primary);padding:20px;">Tu navegador no soporta este video.</p>';
-                    
-                    video.onloadeddata = () => { wrapper.style.opacity = '1'; };
-                    video.onerror = () => { 
-                        wrapper.innerHTML += '<div style="color:#ff6b6b;padding:20px;">⚠️ Error al cargar el video</div>';
-                        showToast('No se pudo cargar el video', 'error');
-                    };
-                    wrapper.appendChild(video);
-                }
-                
-                caption.textContent = item.caption;
-                updateCounter(); updateNavButtons(); updateActiveThumbnail();
-                
-            }, 150);
-        }
-        
-        function generateThumbnails() {
-            const container = document.getElementById('thumbnailsBar');
-            container.innerHTML = '';
-            galleryItems.forEach((item, index) => {
-                const thumb = document.createElement('img');
-                thumb.src = item.thumb; thumb.alt = item.alt;
-                thumb.className = `thumb-item ${index === currentIndex ? 'active' : ''}`;
-                thumb.tabIndex = 0;
-                thumb.onclick = () => goToIndex(index);
-                thumb.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToIndex(index); } };
-                container.appendChild(thumb);
-            });
-        }
-        
-        function updateActiveThumbnail() {
-            document.querySelectorAll('.thumb-item').forEach((thumb, index) => {
-                thumb.classList.toggle('active', index === currentIndex);
-            });
-            const active = document.querySelector('.thumb-item.active');
-            if (active && active.parentElement) {
-                active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            // ========== 2. SISTEMA DE ESTADÍSTICAS ==========
+            function trackView(itemId) {
+                const storageKey = `said_stats_${itemId}`;
+                let currentViews = parseInt(localStorage.getItem(storageKey) || '0');
+                currentViews++;
+                localStorage.setItem(storageKey, currentViews);
+                viewCountEl.textContent = currentViews.toLocaleString();
+                console.log('👁️ Visualización registrada:', itemId, '- Total:', currentViews);
             }
-        }
-        
-        function updateCounter() {
-            document.getElementById('modalCounter').textContent = `${currentIndex + 1} / ${galleryItems.length}`;
-        }
-        
-        function updateNavButtons() {
-            document.querySelector('.nav-prev').disabled = currentIndex === 0;
-            document.querySelector('.nav-next').disabled = currentIndex === galleryItems.length - 1;
-        }
 
-        // ========== NAVEGACIÓN ==========
-        function navigateMedia(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < galleryItems.length) goToIndex(newIndex);
-        }
-        
-        function goToIndex(index) {
-            if (index === currentIndex) return;
-            const video = document.querySelector('.lightbox-video');
-            if (video) video.pause();
-            currentIndex = index;
-            updateMedia();
-            preloadAdjacent(index);
-        }
-
-        // ========== PRELOAD OPTIMIZADO ==========
-        function preloadAdjacent(index) {
-            const preload = (idx) => {
-                if (idx >= 0 && idx < galleryItems.length && galleryItems[idx].type === 'image') {
-                    const img = new Image(); img.src = galleryItems[idx].src;
-                }
-            };
-            preload(index - 1); preload(index + 1);
-        }
-
-        // ========== PANTALLA COMPLETA ==========
-        function toggleFullscreen() {
-            const modal = document.getElementById('galleryModal');
-            if (!fullscreenActive) {
-                if (modal.requestFullscreen) modal.requestFullscreen();
-                else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
-                else if (modal.mozRequestFullScreen) modal.mozRequestFullScreen();
-                else if (modal.msRequestFullscreen) modal.msRequestFullscreen();
-                fullscreenActive = true;
-                showToast('Modo pantalla completa activado', 'info');
-            } else {
+            // ========== 3. FUNCIONES DEL MODAL ==========
+            function openGallery(index = 0) {
+                currentIndex = index;
+                isModalOpen = true;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                updateMedia();
+                generateThumbnails();
+                preloadAdjacent(index);
+                
+                sharePanel.classList.remove('active');
+                sharePanelOpen = false;
+                
+                console.log('🖼️ Galería abierta - Índice:', index);
+            }
+            
+            function closeGallery() {
+                isModalOpen = false;
                 exitFullscreen();
+                modal.classList.remove('active');
+                sharePanel.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                const video = modal.querySelector('.lightbox-video');
+                if (video) video.pause();
+                
+                console.log('❌ Galería cerrada');
             }
-        }
-        
-        function exitFullscreen() {
-            if (document.exitFullscreen) document.exitFullscreen();
-            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-            else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-            else if (document.msExitFullscreen) document.msExitFullscreen();
-            fullscreenActive = false;
-        }
-        
-        document.addEventListener('fullscreenchange', () => {
-            fullscreenActive = !!document.fullscreenElement;
-        });
 
-        // ========== DESCARGA DIRECTA ==========
-        async function downloadCurrent() {
-            const item = galleryItems[currentIndex];
-            if (item.type === 'image') {
-                try {
-                    showToast('Preparando descarga...', 'info');
-                    const response = await fetch(item.src);
-                    const blob = await response.blob();
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = item.src.split('/').pop() || 'imagen-said-space.jpg';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    showToast('✓ Imagen descargada', 'success');
-                } catch (error) {
-                    window.open(item.src, '_blank');
-                    showToast('Abriendo imagen en nueva pestaña', 'info');
-                }
-            } else if (item.type === 'video') {
-                const videoSrc = item.sources[0]?.src;
-                if (videoSrc) {
-                    window.open(videoSrc, '_blank');
-                    showToast('Abriendo video en nueva pestaña', 'info');
-                } else {
-                    showToast('No hay video disponible para descargar', 'error');
-                }
-            }
-        }
-
-        // ========== COMPARTIR EN REDES ==========
-        function toggleSharePanel() {
-            const panel = document.getElementById('sharePanel');
-            sharePanelOpen = !sharePanelOpen;
-            panel.classList.toggle('active', sharePanelOpen);
-        }
-        
-        function shareTo(platform) {
-            const item = galleryItems[currentIndex];
-            const shareUrl = SITE_URL + '#proyectos';
-            const shareText = `🚀 ${item.caption} | ${SITE_TITLE}`;
-            
-            if (platform === 'native' && navigator.share) {
-                navigator.share({ title: SITE_TITLE, text: shareText, url: shareUrl })
-                    .then(() => showToast('✓ Contenido compartido', 'success'))
-                    .catch(() => {});
-                return;
+            function updateMedia() {
+                const item = galleryItems[currentIndex];
+                
+                mediaWrapper.innerHTML = '<div class="loading-overlay"><div class="loading-spinner"></div><span class="loading-text">Cargando...</span></div>';
+                mediaWrapper.style.opacity = '0.7';
+                
+                trackView(item.id);
+                
+                setTimeout(() => {
+                    mediaWrapper.innerHTML = '';
+                    
+                    const badge = document.createElement('span');
+                    badge.className = 'media-badge';
+                    badge.textContent = item.type === 'video' ? '▶ VIDEO' : '📷 FOTO';
+                    mediaWrapper.appendChild(badge);
+                    
+                    if (item.type === 'image') {
+                        const img = new Image();
+                        img.src = item.src;
+                        img.alt = item.alt;
+                        img.className = 'lightbox-img';
+                        img.loading = 'eager';
+                        img.onload = () => { mediaWrapper.style.opacity = '1'; };
+                        img.onerror = () => { 
+                            mediaWrapper.innerHTML = '<div style="color:#ff6b6b;padding:20px;">⚠️ Error al cargar la imagen</div>';
+                            showToast('No se pudo cargar la imagen', 'error');
+                        };
+                        mediaWrapper.appendChild(img);
+                    }
+                    
+                    lightboxCaption.textContent = item.caption;
+                    updateCounter(); 
+                    updateNavButtons(); 
+                    updateActiveThumbnail();
+                    
+                }, 150);
             }
             
-            const urls = {
-                whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`,
-                twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
-                facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-                copy: shareUrl
-            };
-            
-            if (platform === 'copy') {
-                navigator.clipboard.writeText(shareUrl).then(() => {
-                    showToast('✓ Enlace copiado al portapapeles', 'success');
-                }).catch(() => {
-                    const tempInput = document.createElement('input');
-                    tempInput.value = shareUrl; document.body.appendChild(tempInput);
-                    tempInput.select(); document.execCommand('copy'); document.body.removeChild(tempInput);
-                    showToast('✓ Enlace copiado', 'success');
+            function generateThumbnails() {
+                thumbnailsBar.innerHTML = '';
+                galleryItems.forEach((item, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = item.thumb; 
+                    thumb.alt = item.alt;
+                    thumb.className = `thumb-item ${index === currentIndex ? 'active' : ''}`;
+                    thumb.tabIndex = 0;
+                    thumb.addEventListener('click', () => goToIndex(index));
+                    thumb.addEventListener('keydown', (e) => { 
+                        if (e.key === 'Enter' || e.key === ' ') { 
+                            e.preventDefault(); 
+                            goToIndex(index); 
+                        } 
+                    });
+                    thumbnailsBar.appendChild(thumb);
                 });
-            } else if (urls[platform]) {
-                window.open(urls[platform], '_blank', 'width=600,height=400');
-                showToast(`Abriendo ${platform}...`, 'info');
             }
             
-            setTimeout(() => {
-                document.getElementById('sharePanel').classList.remove('active');
-                sharePanelOpen = false;
-            }, 1000);
-        }
-
-        // ========== TOAST NOTIFICATIONS ==========
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMessage');
-            const icon = toast.querySelector('.toast-icon');
-            
-            toastMsg.textContent = message;
-            toast.className = `toast ${type} show`;
-            
-            icon.textContent = type === 'success' ? '✓' : type === 'error' ? '⚠️' : 'ℹ️';
-            
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => {
-                toast.classList.remove('show');
-                toast.classList.add('hide');
-                setTimeout(() => toast.classList.remove('hide'), 400);
-            }, 3000);
-        }
-
-        // ========== EVENTOS DE TECLADO ==========
-        window.onkeydown = function(event) {
-            if (!isModalOpen) return;
-            if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) event.preventDefault();
-            
-            switch(event.key) {
-                case 'Escape': closeGallery(); break;
-                case 'ArrowLeft': navigateMedia(-1); break;
-                case 'ArrowRight': navigateMedia(1); break;
-                case 'Home': goToIndex(0); break;
-                case 'End': goToIndex(galleryItems.length - 1); break;
-                case 'f': case 'F': toggleFullscreen(); break;
-                case 'd': case 'D': downloadCurrent(); break;
-                case 's': case 'S': toggleSharePanel(); break;
-                case '1': case '2': case '3': case '4': case '5': case '6':
-                    const num = parseInt(event.key) - 1;
-                    if (num < galleryItems.length) goToIndex(num); break;
+            function updateActiveThumbnail() {
+                document.querySelectorAll('.thumb-item').forEach((thumb, index) => {
+                    thumb.classList.toggle('active', index === currentIndex);
+                });
+                const active = thumbnailsBar.querySelector('.thumb-item.active');
+                if (active) {
+                    active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
             }
-        };
+            
+            function updateCounter() {
+                modalCounter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
+            }
+            
+            function updateNavButtons() {
+                navPrev.disabled = currentIndex === 0;
+                navNext.disabled = currentIndex === galleryItems.length - 1;
+            }
 
-        document.querySelectorAll('.action-btn, .nav-btn, .share-btn, .thumb-item').forEach(el => {
-            el.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
+            function navigateMedia(direction) {
+                const newIndex = currentIndex + direction;
+                if (newIndex >= 0 && newIndex < galleryItems.length) {
+                    goToIndex(newIndex);
+                }
+            }
+            
+            function goToIndex(index) {
+                if (index === currentIndex) return;
+                const video = modal.querySelector('.lightbox-video');
+                if (video) video.pause();
+                currentIndex = index;
+                updateMedia();
+                preloadAdjacent(index);
+            }
+
+            function preloadAdjacent(index) {
+                const preload = (idx) => {
+                    if (idx >= 0 && idx < galleryItems.length && galleryItems[idx].type === 'image') {
+                        const img = new Image(); 
+                        img.src = galleryItems[idx].src;
+                    }
+                };
+                preload(index - 1); 
+                preload(index + 1);
+            }
+
+            // ========== 4. PANTALLA COMPLETA ==========
+            function toggleFullscreen() {
+                if (!fullscreenActive) {
+                    if (modal.requestFullscreen) modal.requestFullscreen();
+                    else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
+                    else if (modal.mozRequestFullScreen) modal.mozRequestFullScreen();
+                    else if (modal.msRequestFullscreen) modal.msRequestFullscreen();
+                    fullscreenActive = true;
+                    showToast('Modo pantalla completa activado', 'info');
+                } else {
+                    exitFullscreen();
+                }
+            }
+            
+            function exitFullscreen() {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+                else if (document.msExitFullscreen) document.msExitFullscreen();
+                fullscreenActive = false;
+            }
+            
+            document.addEventListener('fullscreenchange', () => {
+                fullscreenActive = !!document.fullscreenElement;
             });
-        });
 
-        // ========== GESTOS TÁCTILES ==========
-        let touchStartX = 0, touchEndX = 0;
-        const content = document.getElementById('lightboxContent');
-        
-        content?.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-        content?.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            const diff = touchStartX - touchEndX;
-            if (Math.abs(diff) > 50) navigateMedia(diff > 0 ? 1 : -1);
-        }, { passive: true });
-
-        window.onclick = (e) => { if (e.target.id === 'galleryModal') closeGallery(); };
-        content?.onclick = (e) => e.stopPropagation();
-        
-        document.addEventListener('click', (e) => {
-            if (sharePanelOpen && !e.target.closest('.share-panel') && !e.target.closest('#shareToggleBtn')) {
-                document.getElementById('sharePanel').classList.remove('active');
-                sharePanelOpen = false;
+            // ========== 5. DESCARGA ==========
+            async function downloadCurrent() {
+                const item = galleryItems[currentIndex];
+                if (item.type === 'image') {
+                    try {
+                        showToast('Preparando descarga...', 'info');
+                        const response = await fetch(item.src);
+                        const blob = await response.blob();
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `said-space-${currentIndex + 1}.jpg`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        showToast('✓ Imagen descargada', 'success');
+                    } catch (error) {
+                        window.open(item.src, '_blank');
+                        showToast('Abriendo imagen en nueva pestaña', 'info');
+                    }
+                } else {
+                    showToast('Descarga de video no disponible', 'info');
+                }
             }
-        });
 
-        document.addEventListener('contextmenu', (e) => {
-            if (e.target.closest('.modal')) {
-                e.preventDefault();
-                showToast('💡 Tip: Usa el botón ⬇ para descargar', 'info');
+            // ========== 6. COMPARTIR ==========
+            function toggleSharePanel() {
+                sharePanelOpen = !sharePanelOpen;
+                sharePanel.classList.toggle('active', sharePanelOpen);
             }
+            
+            function shareTo(platform) {
+                const item = galleryItems[currentIndex];
+                const shareUrl = SITE_URL + '#proyectos';
+                const shareText = `🚀 ${item.caption} | ${SITE_TITLE}`;
+                
+                const urls = {
+                    whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`,
+                    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
+                    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+                    copy: shareUrl
+                };
+                
+                if (platform === 'copy') {
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        showToast('✓ Enlace copiado al portapapeles', 'success');
+                    }).catch(() => {
+                        showToast('Error al copiar', 'error');
+                    });
+                } else if (urls[platform]) {
+                    window.open(urls[platform], '_blank', 'width=600,height=400');
+                    showToast(`Abriendo ${platform}...`, 'info');
+                }
+                
+                setTimeout(() => {
+                    sharePanel.classList.remove('active');
+                    sharePanelOpen = false;
+                }, 1000);
+            }
+
+            // ========== 7. TOAST NOTIFICATIONS ==========
+            function showToast(message, type = 'info') {
+                const icon = toast.querySelector('.toast-icon');
+                toastMessage.textContent = message;
+                toast.className = `toast ${type} show`;
+                
+                icon.textContent = type === 'success' ? '✓' : type === 'error' ? '⚠️' : 'ℹ️';
+                
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                    toast.classList.add('hide');
+                    setTimeout(() => toast.classList.remove('hide'), 400);
+                }, 3000);
+            }
+
+            // ========== 8. EVENT LISTERS ==========
+            // Botón de proyecto
+            document.getElementById('project-astro').addEventListener('click', () => openGallery(0));
+            document.getElementById('project-astro').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openGallery(0);
+                }
+            });
+
+            // Botones del modal
+            document.getElementById('closeBtn').addEventListener('click', closeGallery);
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+            document.getElementById('downloadBtn').addEventListener('click', downloadCurrent);
+            document.getElementById('shareToggleBtn').addEventListener('click', toggleSharePanel);
+            navPrev.addEventListener('click', () => navigateMedia(-1));
+            navNext.addEventListener('click', () => navigateMedia(1));
+
+            // Botones de compartir
+            document.getElementById('shareWhatsapp').addEventListener('click', () => shareTo('whatsapp'));
+            document.getElementById('shareTwitter').addEventListener('click', () => shareTo('twitter'));
+            document.getElementById('shareFacebook').addEventListener('click', () => shareTo('facebook'));
+            document.getElementById('shareCopy').addEventListener('click', () => shareTo('copy'));
+
+            // Teclado
+            window.addEventListener('keydown', function(event) {
+                if (!isModalOpen) return;
+                if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) event.preventDefault();
+                
+                switch(event.key) {
+                    case 'Escape': closeGallery(); break;
+                    case 'ArrowLeft': navigateMedia(-1); break;
+                    case 'ArrowRight': navigateMedia(1); break;
+                    case 'Home': goToIndex(0); break;
+                    case 'End': goToIndex(galleryItems.length - 1); break;
+                    case 'f': case 'F': toggleFullscreen(); break;
+                    case 'd': case 'D': downloadCurrent(); break;
+                    case 's': case 'S': toggleSharePanel(); break;
+                    case '1': case '2': case '3': case '4': case '5': case '6':
+                        const num = parseInt(event.key) - 1;
+                        if (num < galleryItems.length) goToIndex(num); break;
+                }
+            });
+
+            // Touch gestures
+            let touchStartX = 0, touchEndX = 0;
+            
+            lightboxContent.addEventListener('touchstart', (e) => { 
+                touchStartX = e.changedTouches[0].screenX; 
+            }, { passive: true });
+            
+            lightboxContent.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 50) navigateMedia(diff > 0 ? 1 : -1);
+            }, { passive: true });
+
+            // Clic fuera del modal
+            window.addEventListener('click', (e) => { 
+                if (e.target === modal) closeGallery(); 
+            });
+            
+            lightboxContent.addEventListener('click', (e) => e.stopPropagation());
+            
+            document.addEventListener('click', (e) => {
+                if (sharePanelOpen && !e.target.closest('.share-panel') && !e.target.closest('#shareToggleBtn')) {
+                    sharePanel.classList.remove('active');
+                    sharePanelOpen = false;
+                }
+            });
+
+            console.log('✅ Todos los event listeners inicializados correctamente');
         });
     </script>
 </body>
